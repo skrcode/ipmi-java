@@ -17,6 +17,7 @@ jobs:
         with:
           ref: b886a12c5a6cbf649a82b90e5438f10d2e9e064f
           persist-credentials: false
+          fetch-depth: 2
       - uses: actions/setup-java@cf277c60eb25467037889841efdb72551f06f6c3
         with:
           distribution: temurin
