@@ -1,0 +1,77 @@
+name: Verify FullSensorRecord contribution
+
+on:
+  push:
+    branches:
+      - ci/full-sensor-record-verification-20261010
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          ref: a6e23a3330302f6577b2dfbbe8695445b1353734
+          persist-credentials: false
+      - uses: actions/setup-java@cf277c60eb25467037889841efdb72551f06f6c3
+        with:
+          distribution: temurin
+          java-version: '17'
+          cache: maven
+      - name: Apply the bounded test patch
+        env:
+          TEST_PATCH_BASE64: 'ZGlmZiAtLWdpdCBhL3NyYy90ZXN0L2phdmEvb3JnL21ldHJpY3NodWIvaXBtaS9jb3JlL2NvZGluZy9jb21tYW5kcy9zZHIvcmVjb3JkL0Z1bGxTZW5zb3JSZWNvcmRUZXN0LmphdmEgYi9zcmMvdGVzdC9qYXZhL29yZy9tZXRyaWNzaHViL2lwbWkvY29yZS9jb2RpbmcvY29tbWFuZHMvc2RyL3JlY29yZC9GdWxsU2Vuc29yUmVjb3JkVGVzdC5qYXZhCmluZGV4IGMzYTgzMDEuLmFjZTQ4NWQgMTAwNjQ0Ci0tLSBhL3NyYy90ZXN0L2phdmEvb3JnL21ldHJpY3NodWIvaXBtaS9jb3JlL2NvZGluZy9jb21tYW5kcy9zZHIvcmVjb3JkL0Z1bGxTZW5zb3JSZWNvcmRUZXN0LmphdmEKKysrIGIvc3JjL3Rlc3QvamF2YS9vcmcvbWV0cmljc2h1Yi9pcG1pL2NvcmUvY29kaW5nL2NvbW1hbmRzL3Nkci9yZWNvcmQvRnVsbFNlbnNvclJlY29yZFRlc3QuamF2YQpAQCAtNTgsNiArNTgsMTcwIEBAIGNsYXNzIEZ1bGxTZW5zb3JSZWNvcmRUZXN0IHsKIAkJCTB4YzMsICdDJywgJ1AnLCAnVScpOyAvLyA0Ny01MAogCS8vIEBmb3JtYXR0ZXI6b24KIAorCXByaXZhdGUgc3RhdGljIGJ5dGVbXSBjb252ZXJzaW9uUmVjb3JkKGludCB1bml0cywgaW50IGxpbmVhcml6YXRpb24pIHsKKwkJYnl0ZVtdIGRhdGEgPSBFWFBPTkVOVElBTF9URU1QRVJBVFVSRS5jbG9uZSgpOworCQlkYXRhWzIwXSA9IChieXRlKSB1bml0czsKKwkJZGF0YVsyM10gPSAoYnl0ZSkgbGluZWFyaXphdGlvbjsKKwkJLy8gTT0xLCBCPTAsIGJvdGggZXhwb25lbnRzIHplcm87IHJldGFpbiB0aGUgbm9taW5hbCByZWFkaW5nIGFuZCB0aHJlc2hvbGQgYnl0ZXMuCisJCWZvciAoaW50IGkgPSAyNTsgaSA8PSAyOTsgaSsrKSB7CisJCQlkYXRhW2ldID0gMDsKKwkJfQorCQlyZXR1cm4gZGF0YTsKKwl9CisKKwlAVGVzdAorCXZvaWQgdW5zaWduZWRSZWFkaW5nc1JldGFpblRoZWlySGlnaEJpdCgpIHsKKwkJRnVsbFNlbnNvclJlY29yZCByZWNvcmQgPSAoRnVsbFNlbnNvclJlY29yZCkgU2Vuc29yUmVjb3JkLnBvcHVsYXRlU2Vuc29yUmVjb3JkKGNvbnZlcnNpb25SZWNvcmQoMHgwMCwgMHgwMCkpOworCisJCWFzc2VydEVxdWFscygwLCByZWNvcmQuY2FsY0Zvcm11bGEoMHgwMCksIERFTFRBKTsKKwkJYXNzZXJ0RXF1YWxzKDEyOCwgcmVjb3JkLmNhbGNGb3JtdWxhKDB4ODApLCBERUxUQSk7CisJCWFzc2VydEVxdWFscygyNTUsIHJlY29yZC5jYWxjRm9ybXVsYSgweGZmKSwgREVMVEEpOworCX0KKworCUBUZXN0CisJdm9pZCBvbmVzQ29tcGxlbWVudFJlYWRpbmdzSW5jbHVkZU5lZ2F0aXZlWmVybygpIHsKKwkJRnVsbFNlbnNvclJlY29yZCByZWNvcmQgPSAoRnVsbFNlbnNvclJlY29yZCkgU2Vuc29yUmVjb3JkLnBvcHVsYXRlU2Vuc29yUmVjb3JkKGNvbnZlcnNpb25SZWNvcmQoMHg0MCwgMHgwMCkpOworCisJCWFzc2VydEVxdWFscygxMjcsIHJlY29yZC5jYWxjRm9ybXVsYSgweDdmKSwgREVMVEEpOworCQlhc3NlcnRFcXVhbHMoLTEyNywgcmVjb3JkLmNhbGNGb3JtdWxhKDB4ODApLCBERUxUQSk7CisJCWFzc2VydEVxdWFscygtMSwgcmVjb3JkLmNhbGNGb3JtdWxhKDB4ZmUpLCBERUxUQSk7CisJCWFzc2VydEVxdWFscygwLCByZWNvcmQuY2FsY0Zvcm11bGEoMHhmZiksIERFTFRBKTsKKwl9CisKKwlAVGVzdAorCXZvaWQgdHdvc0NvbXBsZW1lbnRSZWFkaW5nc1VzZVRoZUZ1bGxTaWduZWRCeXRlUmFuZ2UoKSB7CisJCUZ1bGxTZW5zb3JSZWNvcmQgcmVjb3JkID0gKEZ1bGxTZW5zb3JSZWNvcmQpIFNlbnNvclJlY29yZC5wb3B1bGF0ZVNlbnNvclJlY29yZChjb252ZXJzaW9uUmVjb3JkKDB4ODAsIDB4MDApKTsKKworCQlhc3NlcnRFcXVhbHMoMTI3LCByZWNvcmQuY2FsY0Zvcm11bGEoMHg3ZiksIERFTFRBKTsKKwkJYXNzZXJ0RXF1YWxzKC0xMjgsIHJlY29yZC5jYWxjRm9ybXVsYSgweDgwKSwgREVMVEEpOworCQlhc3NlcnRFcXVhbHMoLTEsIHJlY29yZC5jYWxjRm9ybXVsYSgweGZmKSwgREVMVEEpOworCX0KKworCUBUZXN0CisJdm9pZCBjb2VmZmljaWVudHNVc2VBbGxUZW5TaWduZWRCaXRzV2l0aG91dFRvbGVyYW5jZU9yQWNjdXJhY3lCaXRzKCkgeworCQlieXRlW10gZGF0YSA9IGNvbnZlcnNpb25SZWNvcmQoMHgwMCwgMHgwMCk7CisJCWRhdGFbMjRdID0gKGJ5dGUpIDB4ZmY7CisJCWRhdGFbMjVdID0gMHg0NDsgLy8gTT01MTE7IHRvbGVyYW5jZT00CisJCWRhdGFbMjZdID0gMHgwMDsKKwkJZGF0YVsyN10gPSAoYnl0ZSkgMHg4MTsgLy8gQj0tNTEyOyBhY2N1cmFjeT0xCisJCUZ1bGxTZW5zb3JSZWNvcmQgcmVjb3JkID0gKEZ1bGxTZW5zb3JSZWNvcmQpIFNlbnNvclJlY29yZC5wb3B1bGF0ZVNlbnNvclJlY29yZChkYXRhKTsKKwkJYXNzZXJ0RXF1YWxzKC01MTIsIHJlY29yZC5jYWxjRm9ybXVsYSgwKSwgREVMVEEpOworCQlhc3NlcnRFcXVhbHMoNTEwLCByZWNvcmQuY2FsY0Zvcm11bGEoMiksIERFTFRBKTsKKworCQlkYXRhWzI0XSA9IDB4MDA7CisJCWRhdGFbMjVdID0gKGJ5dGUpIDB4ODQ7IC8vIE09LTUxMjsgdG9sZXJhbmNlPTQKKwkJZGF0YVsyNl0gPSAoYnl0ZSkgMHhmZjsKKwkJZGF0YVsyN10gPSAweDQxOyAvLyBCPTUxMTsgYWNjdXJhY3k9MQorCQlyZWNvcmQgPSAoRnVsbFNlbnNvclJlY29yZCkgU2Vuc29yUmVjb3JkLnBvcHVsYXRlU2Vuc29yUmVjb3JkKGRhdGEpOworCQlhc3NlcnRFcXVhbHMoNTExLCByZWNvcmQuY2FsY0Zvcm11bGEoMCksIERFTFRBKTsKKwkJYXNzZXJ0RXF1YWxzKC01MTMsIHJlY29yZC5jYWxjRm9ybXVsYSgyKSwgREVMVEEpOworCX0KKworCUBUZXN0CisJdm9pZCBjb2VmZmljaWVudEFuZEV4cG9uZW50U2NhbGluZ1ByZWNlZGVzTGluZWFyaXphdGlvbigpIHsKKwkJYnl0ZVtdIGRhdGEgPSBjb252ZXJzaW9uUmVjb3JkKDB4MDAsIDB4MDgpOyAvLyBzcXVhcmUKKwkJZGF0YVsyNF0gPSAoYnl0ZSkgMHhmZTsKKwkJZGF0YVsyNV0gPSAoYnl0ZSkgMHhjMDsgLy8gTT0tMgorCQlkYXRhWzI2XSA9IChieXRlKSAweGZkOworCQlkYXRhWzI3XSA9IChieXRlKSAweGMwOyAvLyBCPS0zCisJCWRhdGFbMjldID0gKGJ5dGUpIDB4ZjE7IC8vIFI9LTEsIEIgZXhwb25lbnQ9MQorCQlGdWxsU2Vuc29yUmVjb3JkIHJlY29yZCA9IChGdWxsU2Vuc29yUmVjb3JkKSBTZW5zb3JSZWNvcmQucG9wdWxhdGVTZW5zb3JSZWNvcmQoZGF0YSk7CisKKwkJLy8gSVBNSSAyLjAgc2VjdGlvbiAzNi4zOiAoKC0yICogNCAtIDMgKiAxMCkgLyAxMCleMiA9IDE0LjQ0LgorCQlhc3NlcnRFcXVhbHMoMTQuNDQsIHJlY29yZC5jYWxjRm9ybXVsYSg0KSwgREVMVEEpOworCQlhc3NlcnRFcXVhbHMoMTEuNTYsIHJlY29yZC5nZXROb21pbmFsUmVhZGluZygpLCBERUxUQSk7CisJCWFzc2VydEVxdWFscygxNC40NCwgcmVjb3JkLmdldFVwcGVyQ3JpdGljYWxUaHJlc2hvbGQoKSwgREVMVEEpOworCisJCWRhdGFbMjNdID0gMHgwMDsgLy8gbGluZWFyCisJCWRhdGFbMjRdID0gMHgwMjsKKwkJZGF0YVsyNV0gPSAweDAwOworCQlkYXRhWzI2XSA9IDB4MDM7CisJCWRhdGFbMjddID0gMHgwMDsKKwkJZGF0YVsyOV0gPSAweDFmOyAvLyBSPTEsIEIgZXhwb25lbnQ9LTEKKwkJcmVjb3JkID0gKEZ1bGxTZW5zb3JSZWNvcmQpIFNlbnNvclJlY29yZC5wb3B1bGF0ZVNlbnNvclJlY29yZChkYXRhKTsKKwkJYXNzZXJ0RXF1YWxzKDgzLCByZWNvcmQuY2FsY0Zvcm11bGEoNCksIERFTFRBKTsgLy8gKDIgKiA0ICsgMyAvIDEwKSAqIDEwCisJfQorCisJQFRlc3QKKwl2b2lkIGV4cG9uZW50TmliYmxlc0NvdmVyTWludXNFaWdodFRocm91Z2hTZXZlbigpIHsKKwkJYnl0ZVtdIGRhdGEgPSBjb252ZXJzaW9uUmVjb3JkKDB4MDAsIDB4MDApOworCQlkYXRhWzI5XSA9IChieXRlKSAweDgwOyAvLyBSPS04CisJCUZ1bGxTZW5zb3JSZWNvcmQgcmVjb3JkID0gKEZ1bGxTZW5zb3JSZWNvcmQpIFNlbnNvclJlY29yZC5wb3B1bGF0ZVNlbnNvclJlY29yZChkYXRhKTsKKwkJYXNzZXJ0RXF1YWxzKDAuMDAwMDAwMDIsIHJlY29yZC5jYWxjRm9ybXVsYSgyKSwgMWUtMTUpOworCisJCWRhdGFbMjldID0gMHg3MDsgLy8gUj03CisJCXJlY29yZCA9IChGdWxsU2Vuc29yUmVjb3JkKSBTZW5zb3JSZWNvcmQucG9wdWxhdGVTZW5zb3JSZWNvcmQoZGF0YSk7CisJCWFzc2VydEVxdWFscygyMDAwMDAwMCwgcmVjb3JkLmNhbGNGb3JtdWxhKDIpLCBERUxUQSk7CisKKwkJZGF0YVsyNF0gPSAweDAwOyAvLyBNPTAgaXNvbGF0ZXMgdGhlIEIgdGVybQorCQlkYXRhWzI2XSA9IDB4MDM7CisJCWRhdGFbMjldID0gMHgwODsgLy8gQiBleHBvbmVudD0tOAorCQlyZWNvcmQgPSAoRnVsbFNlbnNvclJlY29yZCkgU2Vuc29yUmVjb3JkLnBvcHVsYXRlU2Vuc29yUmVjb3JkKGRhdGEpOworCQlhc3NlcnRFcXVhbHMoMC4wMDAwMDAwMywgcmVjb3JkLmNhbGNGb3JtdWxhKDIpLCAxZS0xNSk7CisKKwkJZGF0YVsyOV0gPSAweDA3OyAvLyBCIGV4cG9uZW50PTcKKwkJcmVjb3JkID0gKEZ1bGxTZW5zb3JSZWNvcmQpIFNlbnNvclJlY29yZC5wb3B1bGF0ZVNlbnNvclJlY29yZChkYXRhKTsKKwkJYXNzZXJ0RXF1YWxzKDMwMDAwMDAwLCByZWNvcmQuY2FsY0Zvcm11bGEoMiksIERFTFRBKTsKKwl9CisKKwlAVGVzdAorCXZvaWQgYWxsU3VwcG9ydGVkTGluZWFyaXphdGlvbnNDb252ZXJ0UmVhZGluZ3MoKSB7CisJCS8vIElQTUkgMi4wIFRhYmxlIDQzLTE6IGZpeGVkIGV4cGVjdGVkIHZhbHVlcywgaW5jbHVkaW5nIG5lZ2F0aXZlIGN1YmUgYW5kIGN1YmUtcm9vdCBpbnB1dHMuCisJCWFzc2VydENvbnZlcnNpb24oMHgwMCwgMiwgMik7IC8vIGxpbmVhcgorCQlhc3NlcnRDb252ZXJzaW9uKDB4MDEsIDIsIDAuNjkzMTQ3MTgwNTU5OTQ1Myk7IC8vIG5hdHVyYWwgbG9nYXJpdGhtCisJCWFzc2VydENvbnZlcnNpb24oMHgwMiwgMTAwLCAyKTsgLy8gbG9nMTAKKwkJYXNzZXJ0Q29udmVyc2lvbigweDAzLCA4LCAzKTsgLy8gbG9nMgorCQlhc3NlcnRDb252ZXJzaW9uKDB4MDQsIDEsIDIuNzE4MjgxODI4NDU5MDQ1KTsgLy8gZV54CisJCWFzc2VydENvbnZlcnNpb24oMHgwNSwgMiwgMTAwKTsgLy8gMTBeeAorCQlhc3NlcnRDb252ZXJzaW9uKDB4MDYsIDMsIDgpOyAvLyAyXngKKwkJYXNzZXJ0Q29udmVyc2lvbigweDA3LCA0LCAwLjI1KTsgLy8gcmVjaXByb2NhbAorCQlhc3NlcnRDb252ZXJzaW9uKDB4MDgsIDMsIDkpOyAvLyBzcXVhcmUKKwkJYXNzZXJ0Q29udmVyc2lvbigweDA5LCAweGZlLCAtOCk7IC8vIGN1YmUgb2YgLTIKKwkJYXNzZXJ0Q29udmVyc2lvbigweDBhLCA5LCAzKTsgLy8gc3F1YXJlIHJvb3QKKwkJYXNzZXJ0Q29udmVyc2lvbigweDBiLCAweGU1LCAtMyk7IC8vIGN1YmUgcm9vdCBvZiAtMjcKKwl9CisKKwlwcml2YXRlIHN0YXRpYyB2b2lkIGFzc2VydENvbnZlcnNpb24oaW50IGxpbmVhcml6YXRpb24sIGludCByYXcsIGRvdWJsZSBleHBlY3RlZCkgeworCQlGdWxsU2Vuc29yUmVjb3JkIHJlY29yZCA9IChGdWxsU2Vuc29yUmVjb3JkKSBTZW5zb3JSZWNvcmQKKwkJCQkucG9wdWxhdGVTZW5zb3JSZWNvcmQoY29udmVyc2lvblJlY29yZCgweDgwLCBsaW5lYXJpemF0aW9uKSk7CisJCWFzc2VydFRydWUocmVjb3JkLmhhc0FuYWxvZ1JlYWRpbmcoKSwgImxpbmVhcml6YXRpb24gIiArIGxpbmVhcml6YXRpb24pOworCQlhc3NlcnRFcXVhbHMoZXhwZWN0ZWQsIHJlY29yZC5jYWxjRm9ybXVsYShyYXcpLCBERUxUQSwgImxpbmVhcml6YXRpb24gIiArIGxpbmVhcml6YXRpb24pOworCX0KKworCUBUZXN0CisJdm9pZCBlYWNoVGhyZXNob2xkSG9ub3JzSXRzUmVhZGFibGVNYXNrKCkgeworCQlkb3VibGVbXSBleHBlY3RlZFZhbHVlcyA9IHsgLTIsIC0zLCAtNCwgLTUsIC02LCAtNyB9OworCQlmb3IgKGludCBiaXQgPSAwOyBiaXQgPCBleHBlY3RlZFZhbHVlcy5sZW5ndGg7IGJpdCsrKSB7CisJCQlieXRlW10gZGF0YSA9IGNvbnZlcnNpb25SZWNvcmQoMHg4MCwgMHgwMCk7CisJCQlkYXRhWzE4XSA9IChieXRlKSAoMSA8PCBiaXQpOworCQkJZm9yIChpbnQgaSA9IDM2OyBpIDw9IDQxOyBpKyspIHsKKwkJCQlkYXRhW2ldID0gKGJ5dGUpICgweGY5ICsgaSAtIDM2KTsgLy8gVU5SPS03IHRocm91Z2ggTE5DPS0yCisJCQl9CisJCQlGdWxsU2Vuc29yUmVjb3JkIHJlY29yZCA9IChGdWxsU2Vuc29yUmVjb3JkKSBTZW5zb3JSZWNvcmQucG9wdWxhdGVTZW5zb3JSZWNvcmQoZGF0YSk7CisJCQlkb3VibGVbXSB0aHJlc2hvbGRzID0geworCQkJCQlyZWNvcmQuZ2V0TG93ZXJOb25Dcml0aWNhbFRocmVzaG9sZCgpLCByZWNvcmQuZ2V0TG93ZXJDcml0aWNhbFRocmVzaG9sZCgpLAorCQkJCQlyZWNvcmQuZ2V0TG93ZXJOb25SZWNvdmVyYWJsZVRocmVzaG9sZCgpLCByZWNvcmQuZ2V0VXBwZXJOb25Dcml0aWNhbFRocmVzaG9sZCgpLAorCQkJCQlyZWNvcmQuZ2V0VXBwZXJDcml0aWNhbFRocmVzaG9sZCgpLCByZWNvcmQuZ2V0VXBwZXJOb25SZWNvdmVyYWJsZVRocmVzaG9sZCgpIH07CisJCQlmb3IgKGludCBpID0gMDsgaSA8IHRocmVzaG9sZHMubGVuZ3RoOyBpKyspIHsKKwkJCQlhc3NlcnRFcXVhbHMoaSA9PSBiaXQgPyBleHBlY3RlZFZhbHVlc1tpXSA6IERvdWJsZS5OYU4sIHRocmVzaG9sZHNbaV0sIERFTFRBLAorCQkJCQkJInJlYWRhYmxlIG1hc2sgYml0ICIgKyBiaXQgKyAiLCB0aHJlc2hvbGQgIiArIGkpOworCQkJfQorCQl9CisJfQorCisJQFRlc3QKKwl2b2lkIHJlc2VydmVkQW5kT2VtTGluZWFyaXphdGlvbnNIYXZlTm9Db21wdXRhYmxlUmVhZGluZygpIHsKKwkJaW50W10gY29kZXMgPSB7IDB4MGMsIDB4NmYsIDB4N2YgfTsKKwkJZm9yIChpbnQgY29kZSA6IGNvZGVzKSB7CisJCQlGdWxsU2Vuc29yUmVjb3JkIHJlY29yZCA9IChGdWxsU2Vuc29yUmVjb3JkKSBTZW5zb3JSZWNvcmQKKwkJCQkJLnBvcHVsYXRlU2Vuc29yUmVjb3JkKGNvbnZlcnNpb25SZWNvcmQoMHgwMCwgY29kZSkpOworCQkJYXNzZXJ0RmFsc2UocmVjb3JkLmhhc0FuYWxvZ1JlYWRpbmcoKSwgImxpbmVhcml6YXRpb24gIiArIGNvZGUpOworCQkJYXNzZXJ0VHJ1ZShEb3VibGUuaXNOYU4ocmVjb3JkLmNhbGNGb3JtdWxhKDcpKSwgImxpbmVhcml6YXRpb24gIiArIGNvZGUpOworCQkJYXNzZXJ0VHJ1ZShEb3VibGUuaXNOYU4ocmVjb3JkLmdldE5vbWluYWxSZWFkaW5nKCkpLCAibGluZWFyaXphdGlvbiAiICsgY29kZSk7CisJCQlhc3NlcnRUcnVlKERvdWJsZS5pc05hTihyZWNvcmQuZ2V0VXBwZXJDcml0aWNhbFRocmVzaG9sZCgpKSwgImxpbmVhcml6YXRpb24gIiArIGNvZGUpOworCQl9CisJfQorCiAJQFRlc3QKIAl2b2lkIHRocmVzaG9sZHNBcmVHYXRlZE9uQnl0ZTEyQW5kTGluZWFyaXplZExpa2VUaGVSZWFkaW5nKCkgewogCQlGdWxsU2Vuc29yUmVjb3JkIHJlY29yZCA9IGFzc2VydEluc3RhbmNlT2YoCg=='
+        run: |
+          test "$(git rev-parse HEAD)" = a6e23a3330302f6577b2dfbbe8695445b1353734
+          git diff --exit-code
+          python3 - <<'PY'
+          import base64, os, pathlib
+          pathlib.Path(os.environ["RUNNER_TEMP"], "sensor-tests.patch").write_bytes(base64.b64decode(os.environ["TEST_PATCH_BASE64"], validate=True))
+          PY
+          git apply --check "$RUNNER_TEMP/sensor-tests.patch"
+          git apply "$RUNNER_TEMP/sensor-tests.patch"
+      - name: Run the repository formatter
+        run: mvn --batch-mode formatter:format
+      - name: Verify the exact change scope
+        run: |
+          python3 - <<'PY'
+          import subprocess
+          paths = subprocess.check_output(["git", "diff", "--name-only"], text=True).splitlines()
+          assert paths == ["src/test/java/org/metricshub/ipmi/core/coding/commands/sdr/record/FullSensorRecordTest.java"], paths
+          PY
+          git diff --check
+      - name: Run the focused sensor tests
+        run: mvn --batch-mode -Dtest=FullSensorRecordTest test
+      - name: Run the full build and configured quality gates
+        run: mvn --batch-mode clean verify site
+      - name: Export verified test source and result counts
+        run: |
+          python3 - <<'PY'
+          import base64, json, pathlib, subprocess
+          import xml.etree.ElementTree as ET
+          reports = list(pathlib.Path("target/surefire-reports").glob("TEST-*.xml"))
+          assert reports, "No Surefire XML reports"
+          totals = {name: 0 for name in ("tests", "failures", "errors", "skipped")}
+          for report in reports:
+              root = ET.parse(report).getroot()
+              for name in totals:
+                  totals[name] += int(root.attrib.get(name, 0))
+          focused = ET.parse("target/surefire-reports/TEST-org.metricshub.ipmi.core.coding.commands.sdr.record.FullSensorRecordTest.xml").getroot()
+          assert int(focused.attrib["tests"]) == 14, focused.attrib
+          assert totals["failures"] == totals["errors"] == totals["skipped"] == 0, totals
+          source = pathlib.Path("src/test/java/org/metricshub/ipmi/core/coding/commands/sdr/record/FullSensorRecordTest.java")
+          required = ["checkstyle-result.xml", "pmd.xml", "cpd.xml", "spotbugsXml.xml"]
+          assert all(pathlib.Path("target", name).is_file() for name in required), required
+          result = {
+              "checked_out_sha": subprocess.check_output(["git", "rev-parse", "HEAD"], text=True).strip(),
+              "test_blob_sha": subprocess.check_output(["git", "hash-object", str(source)], text=True).strip(),
+              "focused_tests": 14, "full_suite": totals, "report_files": required,
+              "commands": ["mvn --batch-mode formatter:format", "mvn --batch-mode -Dtest=FullSensorRecordTest test", "mvn --batch-mode clean verify site"]
+          }
+          print("JAIPILOT_VERIFICATION_RESULT=" + json.dumps(result, sort_keys=True))
+          print("JAIPILOT_FORMATTED_TEST_BASE64=" + base64.b64encode(source.read_bytes()).decode())
+          PY
